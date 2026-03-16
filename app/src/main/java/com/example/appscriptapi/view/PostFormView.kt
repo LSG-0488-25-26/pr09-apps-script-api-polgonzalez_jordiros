@@ -21,7 +21,7 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             onClick = { navController.navigate(Routes.AnimeList.route) },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Return")
+            Text("Atras")
         }
     }
 }

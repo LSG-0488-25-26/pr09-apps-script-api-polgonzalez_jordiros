@@ -21,7 +21,7 @@ fun RegisterView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             onClick = { navController.navigate(Routes.Login.route) },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Return login")
+            Text("Atras")
         }
     }
 }

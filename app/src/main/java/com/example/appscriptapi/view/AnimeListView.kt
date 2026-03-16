@@ -27,7 +27,7 @@ fun AnimeListView(modifier: Modifier, viewModel: ViewModel, navController: NavCo
             onClick = { navController.navigate(Routes.PostForm.route) },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Insert data")
+            Text("Nuevo anime")
         }
     }
 }
