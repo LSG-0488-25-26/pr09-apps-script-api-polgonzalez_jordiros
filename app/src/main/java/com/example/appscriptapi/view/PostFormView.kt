@@ -13,21 +13,15 @@ import com.example.appscriptapi.nav.Routes
 import com.example.appscriptapi.viewmodel.ViewModel
 
 @Composable
-fun AnimeListView(modifier: Modifier, viewModel: ViewModel, navController: NavController) {
+fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavController) {
     Column (
         modifier = Modifier.padding(20.dp)
     ) {
         Button(
-            onClick = { navController.navigate(Routes.Login.route) },
+            onClick = { navController.navigate(Routes.AnimeList.route) },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Logout")
-        }
-        Button(
-            onClick = { navController.navigate(Routes.PostForm.route) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Insert data")
+            Text("Return")
         }
     }
 }
