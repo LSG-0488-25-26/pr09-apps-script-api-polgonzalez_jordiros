@@ -7,7 +7,7 @@ data class Anime (
     var nombre: String,
     var generos: List<String>,
     var tipo: TipoAnime?,
-    var episodios: Int,
+    var episodios: String,
     var valoracion: Double,
     var miembros: Int
 )

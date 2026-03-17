@@ -40,8 +40,10 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
     var nombre by remember { mutableStateOf("") }
     var genero by remember { mutableStateOf("") }
     val generos = remember { mutableStateListOf<String>() }
+    var episodios by remember { mutableStateOf("") }
     var miembros by remember { mutableStateOf("") }
     var valoracion by remember { mutableStateOf("") }
+
     var mensageError by remember { mutableStateOf("") }
 
     var tipoSeleccionado by remember { mutableStateOf<TipoAnime?>(null) }
@@ -102,7 +104,6 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             ) {
                 Text(tipoSeleccionado?.name ?: "Seleccionar tipo")
             }
-
             DropdownMenu(
                 expanded = menuExpandido,
                 onDismissRequest = { menuExpandido = false }
@@ -116,7 +117,6 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
                         }
                     )
                 }
-
                 DropdownMenuItem(
                     text = { Text("Ninguno") },
                     onClick = {
@@ -127,13 +127,17 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             }
         }
         OutlinedTextField(
-            value = miembros,
+            value = episodios,
             onValueChange = { input ->
                 if (input.all { it.isDigit() }) {
-                    miembros = input
+                    if (input.toInt() == 0) {
+                        episodios = "Unknown"
+                    } else {
+                        episodios = input
+                    }
                 }
             },
-            label = { Text("Miembros") },
+            label = { Text("Episodios") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
@@ -152,6 +156,17 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             label = { Text("0.00 (0 - 10)") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+        )
+        OutlinedTextField(
+            value = miembros,
+            onValueChange = { input ->
+                if (input.all { it.isDigit() }) {
+                    miembros = input
+                }
+            },
+            label = { Text("Miembros") },
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Spacer(modifier = Modifier.padding(5.dp))
         Text(
