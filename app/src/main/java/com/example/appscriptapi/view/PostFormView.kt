@@ -1,5 +1,6 @@
 package com.example.appscriptapi.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,6 +38,8 @@ import com.example.appscriptapi.viewmodel.ViewModel
 @Composable
 fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavController) {
     var nombre by remember { mutableStateOf("") }
+    var genero by remember { mutableStateOf("") }
+    val generos = remember { mutableStateListOf<String>() }
     var miembros by remember { mutableStateOf("") }
     var valoracion by remember { mutableStateOf("") }
     var mensageError by remember { mutableStateOf("") }
@@ -48,7 +52,7 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
     Column (
         modifier = Modifier.padding(horizontal = 20.dp, vertical = 50.dp).fillMaxSize()
     ) {
-        Spacer(modifier = Modifier.padding(vertical = 50.dp))
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
         Text(
             text = "Ingresar nuevo anime",
             fontSize = 30.sp,
@@ -62,7 +66,29 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             label = { Text("Nombre") },
             modifier = Modifier.fillMaxWidth()
         )
-
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedTextField(
+                value = genero,
+                onValueChange = { genero = it },
+                label = { Text("Género") },
+                modifier = Modifier.weight(1f)
+            )
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorPrincipal,
+                    contentColor = Color.White
+                ),
+                onClick = {
+                    if (genero.isNotBlank() && !generos.contains(genero)) {
+                        generos.add(genero.trim())
+                        genero = ""
+                    }
+                }
+            ) {
+                Text("Agregar")
+            }
+        }
+        Text (text = generos.joinToString(", "))
         Box(
             modifier = Modifier.padding(vertical = 10.dp)
         ) {
@@ -100,7 +126,6 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
                 )
             }
         }
-
         OutlinedTextField(
             value = miembros,
             onValueChange = { input ->
@@ -143,7 +168,7 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             Button(
                 onClick = {
                     /* APLICAR FUNCION PARA INGRESAR NUEVO ANOME */
-                    // ENVIAR PARAMETROS DE: NOMBRE, LISTA DE GENEROS, TIPO, MIEMBROS Y VALORACION
+                    // ENVIAR PARAMETROS DE: NOMBRE, GENEROS, TIPO, MIEMBROS Y VALORACION
                     // SI HAY ALGUN ERROR CAMBIAR EL VALOR DE MENSAGEERROR
                     navController.navigate(Routes.AnimeList.route)
                 },
