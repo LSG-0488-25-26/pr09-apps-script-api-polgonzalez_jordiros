@@ -1,6 +1,5 @@
 package com.example.appscriptapi.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -32,10 +29,12 @@ import com.example.appscriptapi.viewmodel.ViewModel
 fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavController) {
     var nombre by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
-    var colorFondo = Color(0xFF9000FF)
+    var mensageError by remember { mutableStateOf("") }
+
+    var colorPrincipal = Color(0xFF9000FF)
 
     Surface (
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         Column (
             modifier = Modifier.padding(20.dp),
@@ -45,7 +44,8 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
                 text = "Lista de animes",
                 fontSize = 40.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(vertical = 80.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 80.dp),
+                color = colorPrincipal
             )
             OutlinedTextField(
                 value = nombre,
@@ -60,32 +60,44 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.padding(5.dp))
+            Text(
+                text = mensageError,
+                color = Color.Red
+            )
+            Spacer(modifier = Modifier.padding(5.dp))
             Button(
                 onClick = {
                     /* FUNCION DE VIEWMODEL PARA LOGIN */
                     // INTRODUCIR LOS PARAMETROS NOMBRE Y CONTRASEÑA
                     // SI LAS CREDENCIALES SON CORRECTAS NAVEGAR A ANIMELISTVIEW
+                    // SI SE PRODUCEN ERRORES MODIFICA LA VARIABLE MENSAGEERROR
 
                     navController.navigate(Routes.AnimeList.route)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorFondo,
+                    containerColor = colorPrincipal,
                     contentColor = Color.White
                 )
             ) {
-                Text("Login")
+                Text(
+                    text = "Login",
+                    fontSize = 20.sp,
+                )
             }
             Spacer(modifier = Modifier.padding(5.dp))
             Button(
                 onClick = { navController.navigate(Routes.Register.route) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorFondo,
-                    contentColor = Color.White
+                    containerColor = Color.Transparent,
+                    contentColor = colorPrincipal
                 )
             ) {
-                Text("Signin")
+                Text(
+                    text = "Signin",
+                    fontSize = 20.sp,
+                )
             }
         }
     }
