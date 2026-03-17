@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -76,7 +77,7 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
 
                     navController.navigate(Routes.AnimeList.route)
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().height(50.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorPrincipal,
                     contentColor = Color.White
@@ -90,7 +91,7 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
             Spacer(modifier = Modifier.padding(5.dp))
             Button(
                 onClick = { navController.navigate(Routes.Register.route) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().height(50.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
                     contentColor = colorPrincipal
