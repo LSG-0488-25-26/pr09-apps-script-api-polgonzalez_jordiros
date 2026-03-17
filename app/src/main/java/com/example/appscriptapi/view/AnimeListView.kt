@@ -53,7 +53,6 @@ fun AnimeListView(modifier: Modifier, viewModel: ViewModel, navController: NavCo
                     fontSize = 20.sp,
                 )
             }
-
             Button(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorPrincipal,

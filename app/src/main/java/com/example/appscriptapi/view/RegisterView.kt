@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -39,23 +42,32 @@ fun RegisterView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             modifier = Modifier.padding(20.dp),
             verticalArrangement = Arrangement.Center
         ) {
+            Text(
+                text = "Ventana registro",
+                fontSize = 40.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 80.dp),
+                color = colorPrincipal
+            )
             OutlinedTextField(
                 value = nombre,
                 onValueChange = { nombre = it },
-                label = { Text(text = "Nombre") },
+                label = { Text("Nombre") },
                 modifier = Modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = contrasena,
                 onValueChange = { contrasena = it },
                 label = { Text(text = "Contraseña") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation()
             )
             OutlinedTextField(
                 value = repetirContrasena,
                 onValueChange = { repetirContrasena = it },
                 label = { Text(text = "Repetir contraseña") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier = Modifier.padding(5.dp))
             Text(
@@ -97,6 +109,7 @@ fun RegisterView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
                     fontSize = 20.sp,
                 )
             }
+            Spacer(modifier = Modifier.padding(50.dp))
         }
     }
 }

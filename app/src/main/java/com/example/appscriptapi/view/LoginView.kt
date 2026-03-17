@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,8 +57,9 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
             OutlinedTextField(
                 value = contrasena,
                 onValueChange = { contrasena = it },
-                label = { Text(text = "Contraseña") },
-                modifier = Modifier.fillMaxWidth()
+                label = { Text("Contraseña") },
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier = Modifier.padding(5.dp))
             Text(
