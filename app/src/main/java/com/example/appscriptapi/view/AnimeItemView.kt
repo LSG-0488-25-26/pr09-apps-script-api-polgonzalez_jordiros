@@ -43,6 +43,11 @@ fun AnimeItemView(anime: Anime, viewModel: ViewModel) {
                 color = Color.White
             )
             Text(
+                text = "Episodios: " + anime.episodios,
+                fontSize = 15.sp,
+                color = Color.White
+            )
+            Text(
                 text = "Miembros: " + anime.miembros,
                 fontSize = 15.sp,
                 color = Color.White

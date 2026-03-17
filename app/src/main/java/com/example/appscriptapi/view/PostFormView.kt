@@ -1,6 +1,5 @@
 package com.example.appscriptapi.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.appscriptapi.model.GenerosAnime
 import com.example.appscriptapi.model.TipoAnime
 import com.example.appscriptapi.nav.Routes
 import com.example.appscriptapi.viewmodel.ViewModel
@@ -38,16 +38,18 @@ import com.example.appscriptapi.viewmodel.ViewModel
 @Composable
 fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavController) {
     var nombre by remember { mutableStateOf("") }
-    var genero by remember { mutableStateOf("") }
-    val generos = remember { mutableStateListOf<String>() }
     var episodios by remember { mutableStateOf("") }
     var miembros by remember { mutableStateOf("") }
     var valoracion by remember { mutableStateOf("") }
 
-    var mensageError by remember { mutableStateOf("") }
+    var generoSeleccionado by remember { mutableStateOf<GenerosAnime?>(null) }
+    val generosSeleccionados = remember { mutableStateListOf<GenerosAnime>() }
+    var menuGenerosExpandido by remember { mutableStateOf(false) }
 
     var tipoSeleccionado by remember { mutableStateOf<TipoAnime?>(null) }
-    var menuExpandido by remember { mutableStateOf(false) }
+    var menuTipoExpandido by remember { mutableStateOf(false) }
+
+    var mensageError by remember { mutableStateOf("") }
 
     var colorPrincipal = Color(0xFF9000FF)
 
@@ -68,34 +70,48 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             label = { Text("Nombre") },
             modifier = Modifier.fillMaxWidth()
         )
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(
-                value = genero,
-                onValueChange = { genero = it },
-                label = { Text("Género") },
-                modifier = Modifier.weight(1f)
-            )
+        Box(modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)) {
             Button(
+                onClick = { menuGenerosExpandido = true },
+                modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorPrincipal,
                     contentColor = Color.White
-                ),
-                onClick = {
-                    if (genero.isNotBlank() && !generos.contains(genero)) {
-                        generos.add(genero.trim())
-                        genero = ""
-                    }
-                }
+                )
             ) {
-                Text("Agregar")
+                Text(
+                    generoSeleccionado?.name ?: "Seleccionar género"
+                )
+            }
+
+            DropdownMenu(
+                expanded = menuGenerosExpandido,
+                onDismissRequest = { menuGenerosExpandido = false }
+            ) {
+                GenerosAnime.values().forEach { genero ->
+                    DropdownMenuItem(
+                        text = { Text(genero.name) },
+                        onClick = {
+                            generoSeleccionado = genero
+                            menuGenerosExpandido = false
+                            if (!generosSeleccionados.contains(genero)) {
+                                generosSeleccionados.add(genero)
+                                generoSeleccionado = null
+                            }
+                        }
+                    )
+                }
             }
         }
-        Text (text = generos.joinToString(", "))
+        Text(
+            text = if (generosSeleccionados.isEmpty()) "No hay géneros seleccionados"
+            else "Géneros: ${generosSeleccionados.joinToString { it.name }}",
+        )
         Box(
             modifier = Modifier.padding(vertical = 10.dp)
         ) {
             Button(
-                onClick = { menuExpandido = true },
+                onClick = { menuTipoExpandido = true },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorPrincipal,
@@ -105,15 +121,15 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
                 Text(tipoSeleccionado?.name ?: "Seleccionar tipo")
             }
             DropdownMenu(
-                expanded = menuExpandido,
-                onDismissRequest = { menuExpandido = false }
+                expanded = menuTipoExpandido,
+                onDismissRequest = { menuTipoExpandido = false }
             ) {
                 TipoAnime.values().forEach { tipo ->
                     DropdownMenuItem(
                         text = { Text(tipo.name) },
                         onClick = {
                             tipoSeleccionado = tipo
-                            menuExpandido = false
+                            menuTipoExpandido = false
                         }
                     )
                 }
@@ -121,7 +137,7 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
                     text = { Text("Ninguno") },
                     onClick = {
                         tipoSeleccionado = null
-                        menuExpandido = false
+                        menuTipoExpandido = false
                     }
                 )
             }
@@ -183,7 +199,7 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             Button(
                 onClick = {
                     /* APLICAR FUNCION PARA INGRESAR NUEVO ANOME */
-                    // ENVIAR PARAMETROS DE: NOMBRE, GENEROS, TIPO, MIEMBROS Y VALORACION
+                    // ENVIAR PARAMETROS DE: nombre, generosSeleccionados, tipoSeleccionado, miembros y valoracion
                     // SI HAY ALGUN ERROR CAMBIAR EL VALOR DE MENSAGEERROR
                     navController.navigate(Routes.AnimeList.route)
                 },
