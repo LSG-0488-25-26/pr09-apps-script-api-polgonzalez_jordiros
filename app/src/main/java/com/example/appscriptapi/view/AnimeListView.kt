@@ -1,8 +1,11 @@
 package com.example.appscriptapi.view
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,20 +17,34 @@ import com.example.appscriptapi.viewmodel.ViewModel
 
 @Composable
 fun AnimeListView(modifier: Modifier, viewModel: ViewModel, navController: NavController) {
+    val anime = viewModel.animeList
+
     Column (
         modifier = Modifier.padding(20.dp)
     ) {
-        Button(
-            onClick = { navController.navigate(Routes.Login.route) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Logout")
+        Row {
+            Button(
+                onClick = { navController.navigate(Routes.Login.route) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Logout")
+            }
+            Button(
+                onClick = { navController.navigate(Routes.PostForm.route) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Nuevo anime")
+            }
         }
-        Button(
-            onClick = { navController.navigate(Routes.PostForm.route) },
-            modifier = Modifier.fillMaxWidth()
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(1),
         ) {
-            Text("Nuevo anime")
+            items(anime.size) { index ->
+                AnimeItemView(
+                    anime = anime[index],
+                    viewModel = viewModel
+                )
+            }
         }
     }
 }

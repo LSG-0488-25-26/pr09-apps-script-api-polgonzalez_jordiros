@@ -9,5 +9,5 @@ data class Anime (
     var tipo: String,
     var episodios: Int,
     var valoracion: Double,
-    var miembros: Integer
+    var miembros: Int
 )
