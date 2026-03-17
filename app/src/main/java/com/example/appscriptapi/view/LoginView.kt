@@ -99,6 +99,7 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
                     fontSize = 20.sp,
                 )
             }
+            Spacer(modifier = Modifier.padding(150.dp))
         }
     }
 }
