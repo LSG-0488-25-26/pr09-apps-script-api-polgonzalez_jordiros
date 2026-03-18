@@ -28,7 +28,7 @@ class ViewModel: ViewModel() {
 
     // 2. Configuración de Retrofit con la URL base
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://script.google.com/macros/s/AKfycbwAxkx8WUQfpoxTiKpracrlHvUyHqIpCmyBdCLIf0sAGde7YqLeqCUmPS9ps7505hoq/")
+        .baseUrl("https://script.google.com/macros/s/AKfycbwAxkx8WUQfpoxTiKpracrlHvUyHqlpCmyBdCLIf0sAGde7YqLeqCUmPS9ps75o5hoq/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

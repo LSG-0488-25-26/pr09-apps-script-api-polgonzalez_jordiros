@@ -88,6 +88,14 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
                 )
             }
             Spacer(modifier = Modifier.padding(5.dp))
+            //Mostramos error en el caso de que las credenciales sean incorrectas
+            if (viewModel.errorMessage.isNotEmpty()) {
+                Text(
+                    text = viewModel.errorMessage,
+                    color = Color.Red,
+                    modifier = Modifier.padding(bottom = 5.dp)
+                )
+            }
             Button(
                 onClick = { navController.navigate(Routes.Register.route) },
                 modifier = Modifier.fillMaxWidth().height(50.dp),
