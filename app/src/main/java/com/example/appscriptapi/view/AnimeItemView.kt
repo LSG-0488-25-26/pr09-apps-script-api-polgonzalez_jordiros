@@ -22,10 +22,15 @@ fun AnimeItemView(anime: Anime, viewModel: ViewModel) {
     var colorFondo = Color(0xFF242424)
 
     Card(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp)
     ) {
         Column(
-            modifier = Modifier.background(colorFondo).padding(10.dp).fillMaxSize()
+            modifier = Modifier
+                .background(colorFondo)
+                .padding(10.dp)
+                .fillMaxSize()
         ) {
             Text(
                 text = anime.nombre,
@@ -33,7 +38,7 @@ fun AnimeItemView(anime: Anime, viewModel: ViewModel) {
                 color = colorPrincipal
             )
             Text(
-                text = anime.generos.joinToString(", "),
+                text = (anime.generos ?: listOf("Sin género")).joinToString(", "),
                 fontSize = 15.sp,
                 color = Color.White
             )
@@ -53,7 +58,7 @@ fun AnimeItemView(anime: Anime, viewModel: ViewModel) {
                 color = Color.White
             )
             Text(
-                text = "Valoración: " + anime.valoracion.toString(),
+                text = "Valoración: ${anime.valoracion ?: "0.0"}",
                 fontSize = 20.sp,
                 color = colorValoracion
             )

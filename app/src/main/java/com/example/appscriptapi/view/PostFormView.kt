@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.appscriptapi.model.Anime
 import com.example.appscriptapi.model.GenerosAnime
 import com.example.appscriptapi.model.TipoAnime
 import com.example.appscriptapi.nav.Routes
@@ -49,19 +50,21 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
     var tipoSeleccionado by remember { mutableStateOf<TipoAnime?>(null) }
     var menuTipoExpandido by remember { mutableStateOf(false) }
 
-    var mensageError by remember { mutableStateOf("") }
-
     var colorPrincipal = Color(0xFF9000FF)
 
-    Column (
-        modifier = Modifier.padding(horizontal = 20.dp, vertical = 50.dp).fillMaxSize()
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 20.dp, vertical = 50.dp)
+            .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.padding(vertical = 10.dp))
         Text(
             text = "Ingresar nuevo anime",
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(vertical = 60.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 20.dp), // Ajustado el padding para que quepa bien
             color = colorPrincipal
         )
         OutlinedTextField(
@@ -146,7 +149,7 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             value = episodios,
             onValueChange = { input ->
                 if (input.all { it.isDigit() }) {
-                    if (input.toInt() == 0) {
+                    if (input.isNotEmpty() && input.toInt() == 0) {
                         episodios = "Unknown"
                     } else {
                         episodios = input
@@ -161,9 +164,7 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             value = valoracion,
             onValueChange = { input ->
                 if (input.matches(Regex("^\\d{0,2}(\\.\\d{0,2})?\$"))) {
-
                     val numero = input.toDoubleOrNull()
-
                     if (numero == null || numero in 0.0..10.0) {
                         valoracion = input
                     }
@@ -184,24 +185,40 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
-        Spacer(modifier = Modifier.padding(5.dp))
-        Text(
-            text = mensageError,
-            color = Color.Red
-        )
-        Spacer(modifier = Modifier.padding(5.dp))
+
+        // Muestra el error de ViewModel si lo hay
+        if (viewModel.errorMessage.isNotEmpty()) {
+            Text(
+                text = viewModel.errorMessage,
+                color = Color.Red,
+                modifier = Modifier.padding(vertical = 5.dp)
+            )
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(50.dp)
+                .padding(top = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Button(
                 onClick = {
-                    /* APLICAR FUNCION PARA INGRESAR NUEVO ANOME */
-                    // ENVIAR PARAMETROS DE: nombre, generosSeleccionados, tipoSeleccionado, miembros y valoracion
-                    // SI HAY ALGUN ERROR CAMBIAR EL VALOR DE MENSAGEERROR
-                    navController.navigate(Routes.AnimeList.route)
+                    // Creamos el objeto mapeando los Enum a String
+                    val nuevoAnime = Anime(
+                        id = (0..100000).random(),
+                        nombre = nombre,
+                        generos = generosSeleccionados.map { it.name },
+                        tipo = tipoSeleccionado?.name,
+                        episodios = if (episodios.isEmpty()) "Unknown" else episodios,
+                        valoracion = if (valoracion.isEmpty()) "0.0" else valoracion,
+                        miembros = if (miembros.isEmpty()) "0" else miembros
+                    )
+
+                    // Pasamos el nuevoAnime al ViewModel
+                    viewModel.addAnime(nuevoAnime) {
+                        navController.popBackStack() // Cierra la pantalla al tener éxito
+                    }
                 },
                 modifier = Modifier
                     .weight(1f)
@@ -217,13 +234,13 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
                 )
             }
             Button(
-                onClick = { navController.navigate(Routes.AnimeList.route) },
+                onClick = { navController.popBackStack() }, // Simplificado para volver atrás
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = colorPrincipal
+                    containerColor = Color.LightGray,
+                    contentColor = Color.Black
                 )
             ) {
                 Text(
