@@ -32,6 +32,7 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
     var nombre by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     var mensageError by remember { mutableStateOf("") }
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     var colorPrincipal = Color(0xFF9000FF)
 
@@ -70,12 +71,10 @@ fun LoginView(modifier: Modifier, viewModel: ViewModel, navController: NavContro
             Spacer(modifier = Modifier.padding(5.dp))
             Button(
                 onClick = {
-                    /* FUNCION DE VIEWMODEL PARA LOGIN */
-                    // INTRODUCIR LOS PARAMETROS NOMBRE Y CONTRASEÑA
-                    // SI LAS CREDENCIALES SON CORRECTAS NAVEGAR A ANIMELISTVIEW
-                    // SI SE PRODUCEN ERRORES MODIFICA LA VARIABLE MENSAGEERROR
-
-                    navController.navigate(Routes.AnimeList.route)
+                    viewModel.login(nombre, contrasena, context) {
+                        // Si el login es correcto, navegamos a la lista
+                        navController.navigate(Routes.AnimeList.route)
+                    }
                 },
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 colors = ButtonDefaults.buttonColors(

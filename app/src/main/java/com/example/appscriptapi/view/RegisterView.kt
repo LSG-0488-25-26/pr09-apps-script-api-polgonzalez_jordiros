@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ fun RegisterView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
     var repetirContrasena by remember { mutableStateOf("") }
     var mensageError by remember { mutableStateOf("") }
     var colorPrincipal = Color(0xFF9000FF)
+    val context = LocalContext.current
 
     Surface (
         modifier = Modifier.fillMaxSize(),
@@ -77,12 +79,10 @@ fun RegisterView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
             Spacer(modifier = Modifier.padding(5.dp))
             Button(
                 onClick = {
-                    /* FUNCION DE VIEWMODEL PARA SIGNIN */
-                    // INTRODUCIR LOS PARAMETROS NOMBRE, CONTRASEÑA Y REPETIR CONTRASEÑA
-                    // SI LAS CREDENCIALES SON CORRECTAS NAVEGAR A ANIMELISTVIEW
-                    // SI SE PRODUCEN ERRORES MODIFICA LA VARIABLE MENSAGEERROR
-
-                    navController.navigate(Routes.AnimeList.route)
+                    viewModel.signin(nombre, contrasena, context) {
+                        // Navegamos al login tras registrar
+                        navController.navigate(Routes.Login.route)
+                    }
                 },
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 colors = ButtonDefaults.buttonColors(
