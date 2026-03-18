@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.appscriptapi.api.AnimeApiService
 import com.example.appscriptapi.model.Anime
-import com.example.appscriptapi.model.GenerosAnime
-import com.example.appscriptapi.model.TipoAnime
+import com.example.appscriptapi.model.Review
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -108,6 +107,22 @@ class ViewModel: ViewModel() {
                     onSuccess()
                 } else {
                     errorMessage = "Error al crear el anime"
+                }
+            } catch (e: Exception) {
+                errorMessage = "No se pudo conectar"
+            }
+        }
+    }
+
+    fun addReview(newReview: Review, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            errorMessage = ""
+            try {
+                val response = apiService.postReview(review = newReview)
+                if (response.isSuccessful) {
+                    onSuccess()
+                } else {
+                    errorMessage = "Error al crear el comentario"
                 }
             } catch (e: Exception) {
                 errorMessage = "No se pudo conectar"

@@ -206,7 +206,6 @@ fun PostFormView(modifier: Modifier, viewModel: ViewModel, navController: NavCon
                 onClick = {
                     // Creamos el objeto mapeando los Enum a String
                     val nuevoAnime = Anime(
-                        id = (0..100000).random(),
                         nombre = nombre,
                         generos = generosSeleccionados.map { it.name },
                         tipo = tipoSeleccionado?.name,

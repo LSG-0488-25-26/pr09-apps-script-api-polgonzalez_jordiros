@@ -18,6 +18,7 @@ import com.example.appscriptapi.view.AnimeListView
 import com.example.appscriptapi.view.LoginView
 import com.example.appscriptapi.view.PostFormView
 import com.example.appscriptapi.view.RegisterView
+import com.example.appscriptapi.view.ReviewFormView
 import com.example.appscriptapi.viewmodel.ViewModel
 import kotlin.getValue
 
@@ -39,6 +40,7 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.Register.route) { RegisterView(modifier = Modifier.padding(innerPadding), viewModel, navController) }
                         composable(Routes.AnimeList.route) { AnimeListView(modifier = Modifier.padding(innerPadding), viewModel, navController) }
                         composable(Routes.PostForm.route) { PostFormView(modifier = Modifier.padding(innerPadding), viewModel, navController) }
+                        composable(Routes.ReviewFormView.route) { ReviewFormView(modifier = Modifier.padding(innerPadding), viewModel, navController) }
                     }
                 }
             }

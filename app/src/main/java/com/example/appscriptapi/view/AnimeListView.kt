@@ -108,7 +108,7 @@ fun AnimeListView(modifier: Modifier, viewModel: ViewModel, navController: NavCo
             items(animes.size) { index ->
                 AnimeItemView(
                     anime = animes[index],
-                    viewModel = viewModel
+                    navController = navController
                 )
             }
         }
