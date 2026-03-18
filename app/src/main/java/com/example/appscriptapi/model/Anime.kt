@@ -5,11 +5,11 @@ import androidx.room.PrimaryKey
 data class Anime (
     @PrimaryKey var id: Int,
     var nombre: String,
-    var generos: List<GenerosAnime>,
-    var tipo: TipoAnime?,
+    var generos: List<String>,
+    var tipo: String?,
     var episodios: String,
-    var valoracion: Double,
-    var miembros: Int
+    var valoracion: String,
+    var miembros: String
 )
 
 enum class TipoAnime {
